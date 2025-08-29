@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import Landing from "./Landing";
+import SmartEmail from "./journeys/SmartEmail";
+import FileConverter from "./journeys/FileConverter";
+import PDFStudio from "./journeys/PDFStudio";
+import WebOptimizer from "./journeys/WebOptimizer";
+import IconGenerator from "./journeys/IconGenerator";
 
-function App() {
-  const [count, setCount] = useState(0)
+// Component to handle journey state cleanup on navigation
+function JourneyStateManager() {
+  const location = useLocation();
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  useEffect(() => {
+    // Cleanup any journey state when navigating between routes
+    // This ensures each journey starts fresh
+    window.scrollTo(0, 0);
+
+    // Clear any file inputs or temporary data
+    // (Will be implemented when journeys have actual state)
+
+    return () => {
+      // Additional cleanup if needed
+    };
+  }, [location.pathname]);
+
+  return null;
 }
 
-export default App
+// Main App component with routing
+function App() {
+  return (
+    <BrowserRouter>
+      <JourneyStateManager />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/email" element={<SmartEmail />} />
+        <Route path="/convert" element={<FileConverter />} />
+        <Route path="/pdf" element={<PDFStudio />} />
+        <Route path="/optimize" element={<WebOptimizer />} />
+        <Route path="/icons" element={<IconGenerator />} />
+        <Route path="*" element={<Landing />} /> {/* Fallback to landing */}
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
