@@ -49,9 +49,11 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -64,26 +66,41 @@
   }
 }
 
-/* Processing spinner animation */
-@keyframes processingSpin {
-  from {
-    transform: rotate(0deg);
-  }
+/* Spinner animation */
+@keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-/* Pulse animation for processing */
-@keyframes processingPulse {
-  0%,
+/* Shimmer effect for progress bars */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
   100% {
-    opacity: 1;
-    transform: scale(1);
+    transform: translateX(100%);
+  }
+}
+
+/* Checkmark animations */
+@keyframes checkmarkPop {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
   }
   50% {
-    opacity: 0.7;
-    transform: scale(0.95);
+    transform: scale(1.2) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes checkmarkDraw {
+  to {
+    opacity: 1;
   }
 }
 
@@ -102,34 +119,27 @@
   }
 }
 
-/* Checkmark draw animation */
-@keyframes drawCheck {
-  0% {
-    stroke-dashoffset: 100;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* Card hover lift */
-@keyframes cardLift {
-  from {
-    transform: translateY(0) scale(1);
-  }
-  to {
-    transform: translateY(-4px) scale(1.02);
-  }
-}
-
-/* File upload zone pulse */
+/* Upload zone pulse */
 @keyframes uploadZonePulse {
   0%,
   100% {
-    border-color: rgba(59, 130, 246, 0.3);
+    border-color: rgba(0, 240, 255, 0.3);
   }
   50% {
-    border-color: rgba(59, 130, 246, 0.6);
+    border-color: rgba(0, 240, 255, 0.6);
+  }
+}
+
+/* Processing pulse */
+@keyframes processingPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.95);
   }
 }
 
@@ -159,7 +169,7 @@
 }
 
 .processing-spin {
-  animation: processingSpin 1s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 .processing-pulse {
@@ -170,30 +180,22 @@
   animation: successPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
 
-.check-draw {
-  stroke-dasharray: 100;
-  animation: drawCheck 0.5s ease-out 0.3s forwards;
-}
-
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-hover:hover {
-  animation: cardLift 0.3s ease-out forwards;
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
 }
 
 .upload-zone-active {
   animation: uploadZonePulse 2s ease-in-out infinite;
-}
-
-/* Smooth transitions for all interactive elements */
-* {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-button,
-a,
-.clickable {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
